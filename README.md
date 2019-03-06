@@ -1,6 +1,6 @@
 # threeEntry
 
-threeEntry is a free introduction to three.js,it includes examples about Geometry,camera,light,material etc.In addition,this project also includes electronic book about three start guide.
+threeEntry is a free start guide for three.js,it includes examples about Geometry,camera,light,material etc.In addition,this project also includes electronic book about three start guide.
 
 
-start: threeEntry/services/nodejs_server.sh
+serve: threeEntry/services/nodejs_server.sh
