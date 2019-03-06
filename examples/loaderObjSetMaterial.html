@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type = 'text/javascript' src = '../build/three.js'></script>
+    <script type = 'text/javascript' src = '../lib/loaders/OBJLoader.js'></script>
+    <title>loaderObjSetMaterial</title>
+</head>
+<script>
+    let renderer = null;
+    let scene = null;
+    let camera = null;
+
+    let mesh = null;
+    let id = null;
+
+    function init(){
+        //第一种：已经创建了Canvas元素
+        renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('mainCanvas')
+        });
+        //第二种：生成Canvas元素
+        // let renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(400, 300);
+        // document.getElementsByTagName(' body ')[0].appendChild( renderer.domElement);
+        
+        renderer.setClearColor(0x000000);//黑色
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(45, 4 / 3, 1, 1000);
+        camera.position.set(10, 10, 10);
+        camera.lookAt(0, 0, 0);
+        scene.add(camera);
+
+        let light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(10, 15, 15);
+        scene.add(light);
+
+        let loader = new THREE.OBJLoader();
+        loader.load('../model/port.obj', function(obj) {
+            obj.traverse(function(child) {
+                if (child instanceof THREE.Mesh) {
+                    child.material = new THREE.MeshLambertMaterial({
+                        color: 0xffff00,
+                        side: THREE.DoubleSide
+                    });
+//                    child.material.side = THREE.DoubleSide;
+                }
+            });
+            mesh = obj;         //储存到全局变量中
+            scene.add(obj);
+        });
+        id = setInterval(draw, 20);
+//        renderer.render(scene, camera);
+    }
+
+    function draw() {
+        renderer.render(scene, camera);
+
+        mesh.rotation.y += 0.01;
+        if (mesh.rotation.y > Math.PI * 2) {
+            mesh.rotation.y -= Math.PI * 2;
+        }
+    }
+</script>
+
+
+<body onload="init()">
+    <canvas id = 'mainCanvas' width = '400px' height="300px"></canvas>
+</body>
+</html>

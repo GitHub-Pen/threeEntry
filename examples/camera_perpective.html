@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type = 'text/javascript' src = '../build/three.js'></script>
+    <title>camera_perpective</title>
+</head>
+
+<script>
+     // (a)透视投影：近大远小    (b)正交投影：接近人眼观察效果
+
+    function init(){
+        //第一种：已经创建了Canvas元素
+        var renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('mainCanvas')
+        });
+        //第二种：生成Canvas元素
+        // var renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(400, 300);
+        // document.getElementsByTagName(' body ')[0].appendChild( renderer.domElement);
+        
+        renderer.setClearColor(0x000000);//黑色
+        var scene = new THREE.Scene();
+
+        //投影变换的目的就是定义一个视景体，使得视景体外多余的部分裁剪掉，最终图像只是视景体内的有关部分
+        //透视投影照相机（THREE.PerspectiveCamera(fov, aspect, near, far)）
+        //fov是视景体竖直方向上的张角（是角度制而非弧度制）,aspect等于width / height，是照相机水平方向和竖直方向长度的比值，通常设为Canvas的横纵比例。
+        //fov角度越大，物体显示的越小，因为照相机的竖直张角设置得更大时，视景体变大了，因而正方体相对于整个视景体的大小就变小了，看起来正方形就显得变小了。
+        var camera = new THREE.PerspectiveCamera(45, 400/300, 1, 10);
+
+        //摄像机位置
+        camera.position.set(0, 0, 5);   
+        
+        //摄像机向右偏转
+        // camera.position.set(1, 0, 5);
+
+        //摄像机仰视看向远点
+        // camera.position.set(4, -3, 5);
+        // camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        scene.add(camera);
+
+        var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1),
+                new THREE.MeshBasicMaterial({
+                    color: 0xff0000,
+                    wireframe: true  //费实心的材质，可以看到后面的线框
+                })
+        );
+        scene.add(cube);
+        renderer.render(scene, camera);
+    }
+</script>
+
+
+<body onload="init()">
+    <canvas id = 'mainCanvas' width = '400px' height="300px"></canvas>
+</body>
+</html>

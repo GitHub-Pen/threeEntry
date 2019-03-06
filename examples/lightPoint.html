@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type = 'text/javascript' src = '../build/three.js'></script>
+    <title>lightPoint</title>
+</head>
+<script>
+    function init(){
+        //第一种：已经创建了Canvas元素
+        var renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('mainCanvas')
+        });
+        //第二种：生成Canvas元素
+        // var renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(400, 300);
+        // document.getElementsByTagName(' body ')[0].appendChild( renderer.domElement);
+        
+        renderer.setClearColor(0x000000);//黑色
+        var scene = new THREE.Scene();
+        camera = new THREE.OrthographicCamera(-5, 5, 3.75, -3.75, 0.1, 100);
+        camera.position.set(5, 15, 25);
+        camera.lookAt(0, 0, 0);
+        scene.add(camera);
+
+        // 点光源是不计光源大小，可以看作一个点发出的光源。点光源照到不同物体表面的亮度是线性递减的，因此，离点光源距离越远的物体会显得越暗
+        // THREE.PointLight(hex, intensity, distance)
+        // hex是光源十六进制的颜色值；  intensity是亮度，缺省值为1，表示100%亮度；  distance是光源最远照射到的距离，缺省值为0
+        var light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(0, 1.5, 2);
+        scene.add(light);
+
+        // MeshBasicMaterial不需要开启灯光，而像Lambert和Phong材质都需要打开灯光
+        var cube = new THREE.Mesh(
+            new THREE.CubeGeometry(2, 2, 2),
+            new THREE.MeshLambertMaterial({color: 0x00ff00})
+        );
+        scene.add(cube);
+        renderer.render(scene, camera);
+    }
+</script>
+
+
+<body onload="init()">
+    <canvas id = 'mainCanvas' width = '400px' height="300px"></canvas>
+</body>
+</html>

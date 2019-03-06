@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>drawLine</title>
+    <style>
+        body {
+            font-family: Monospace;
+            background-color: #f0f0f0;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script type = 'text/javascript' src = '../build/three.js'></script>
+    <script>
+        //第一种：已经创建了Canvas元素
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / innerHeight, 1, 600);
+        camera.position.set(0, 0, 100);
+        camera.lookAt(new THREE.Vector3( 0, 0, 0 ));  //new THREE.Vector3( 0, 0, 0 )
+
+        var scene = new THREE.Scene();
+        scene.add(camera);
+
+        var geometry = new THREE.Geometry();
+        geometry.vertices.push(new THREE.Vector3( -10, 0, 0));
+        geometry.vertices.push(new THREE.Vector3( 0, 10, 0));
+        // geometry.vertices.push(new THREE.Vector3( 10, 0, 0));
+
+        //LineDashedMaterial 虚线   LineBasicMaterial
+        var material = new THREE.LineDashedMaterial({color:'blue',linewidth: 1,gapSize:10,dashSize: 10,scale:10});
+        var line = new THREE.Line(
+            geometry,
+            material
+        );
+        line.computeLineDistances(); //必须调用，否则不会有虚线效果
+        // line.scale.setScalar( 2 );
+        scene.add(line);
+        renderer.render(scene, camera);
+    </script>
+</body>
+</html>

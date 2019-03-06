@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type = 'text/javascript' src = '../build/three.js'></script>
+    <title>shadow</title>
+</head>
+<script>
+    function init(){
+        //第一种：已经创建了Canvas元素
+        var renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('mainCanvas')
+        });
+        //第二种：生成Canvas元素
+        // var renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(400, 300);
+        // document.getElementsByTagName(' body ')[0].appendChild( renderer.domElement);
+        
+        renderer.setClearColor(0x000000);  //黑色
+        renderer.shadowMapEnabled = true;  //告诉渲染器渲染阴影
+        renderer.shadowMapSoft = true;
+
+        var scene = new THREE.Scene();
+
+        camera = new THREE.OrthographicCamera(-5, 5, 3.75, -3.75, 0.1, 100);
+        camera.position.set(5, 15, 25);
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
+        scene.add(camera);
+
+        // 在Three.js中，能形成阴影的光源只有THREE.DirectionalLight与THREE.SpotLight
+        // 而相对地，能表现阴影效果的材质只有THREE.LambertMaterial与THREE.PhongMaterial。
+        var light = new THREE.SpotLight(0xffff00, 1, 100, Math.PI / 6, 25);
+        light.position.set(2, 5, 3);
+        light.target.position.set(0, 0, 0);
+        scene.add(light);
+
+        var plane = new THREE.Mesh(
+            new THREE.PlaneGeometry(8, 8, 16, 16),
+            new THREE.MeshLambertMaterial({color: 0xcccccc}));
+        plane.rotation.x = -Math.PI / 2;
+        plane.position.y = -1;
+        plane.receiveShadow = true;   //接收阴影的物体
+        scene.add(plane);
+
+        var cube = new THREE.Mesh(
+            new THREE.CubeGeometry(1, 1, 1),
+            new THREE.MeshLambertMaterial({color: 0x00ff00})
+        );
+        cube.position.x = 0;
+        cube.castShadow = true;       //要产生阴影的物体
+        scene.add(cube);
+
+//        light.target = cube;
+
+//        light.shadowCameraNear = 2;
+//        light.shadowCameraFar = 10;
+//        light.shadowCameraFov = 30;
+        light.shadowCameraVisible = true;
+
+//        light.shadowMapWidth = 1024;
+//        light.shadowMapHeight = 1024;
+//        light.shadowDarkness = 0.3;
+
+        renderer.render(scene, camera);
+    }
+</script>
+
+
+<body onload="init()">
+    <canvas id = 'mainCanvas' width = '400px' height="300px"></canvas>
+</body>
+</html>

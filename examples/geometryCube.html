@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type = 'text/javascript' src = '../build/three.js'></script>
+    <title>cubeGeometry</title>
+</head>
+<script>
+    function init(){
+        //第一种：已经创建了Canvas元素
+        var renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('mainCanvas')
+        });
+        //第二种：生成Canvas元素
+        // var renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(400, 300);
+        // document.getElementsByTagName(' body ')[0].appendChild( renderer.domElement);
+        
+        renderer.setClearColor(0x000000);//黑色
+        var scene = new THREE.Scene();
+        var camera = new THREE.OrthographicCamera(-2, 2, 1.5, -1.5, 1, 10);
+        camera.position.set(1, 1, 5);
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        scene.add(camera);
+
+        // THREE.CubeGeometry(width, height, depth, widthSegments, heightSegments, depthSegments),立方体
+        // width是x方向上的长度；height是y方向上的长度；depth是z方向上的长度；后三个参数分别是在三个方向上的分段数，如widthSegments为3的话
+        var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3),
+                new THREE.MeshBasicMaterial({
+                    color: 0xff0000,
+                    wireframe: true  //费实心的材质，可以看到后面的线框
+                })
+        );
+        scene.add(cube);
+        renderer.render(scene, camera);
+    }
+</script>
+
+<body onload="init()">
+    <canvas id = 'mainCanvas' width = '400px' height="300px"></canvas>
+</body>
+</html>
