@@ -1,7 +1,6 @@
 # threeEntry
 
-threeEntry is a free start guide for three.js,it includes examples about Geometry,camera,light,material etc.In addition,this project also includes electronic book about three start guide.
-
+threeEntry 是我刚开始学习 three.js 时参考<<Three.js 入门指南>>写的一些小例子，其中包括 Geometry,camera,light,material 等实例。这本电子书也放到了该项目文件夹中，可查阅。
 
 serve: threeEntry/services/nodejs_server.sh
 
