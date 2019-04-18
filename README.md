@@ -4,7 +4,7 @@ threeEntry 是我刚开始学习 three.js 时参考<<Three.js 入门指南>>写�
 
 serve: threeEntry/services/nodejs_server.sh
 
-## three.js 相关
+## Three.js 相关
 
 ### 照相机、投影方式
 + Camera
